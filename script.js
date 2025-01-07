@@ -8,14 +8,15 @@ const form = document.getElementById('myForm');
 
             // Funkce pro spočítání samohlásek a souhlásek
             function countVowelsAndConsonants(str) {
-                const vowels = 'aeiouAEIOU';
+                const vowels = 'aeiouAEIOUáéíóúů';
+                const consonants = "HhkKrRdDtTnNŽžšŠčČřŘcCjJďĎťŤňŇbBfFLlMmPpSsVvZz";
                 let vowelCount = 0;
                 let consonantCount = 0;
 
                 for (let i = 0; i < str.length; i++) {
                     if (vowels.includes(str[i])) {
                         vowelCount++;
-                    } else {
+                    } else if(consonants.includes(str[i])){
                         consonantCount++;
                     }
                 }
@@ -24,7 +25,10 @@ const form = document.getElementById('myForm');
             }
 
             function containsNumberAndSymbols(str){
-                return /\d/.test(str);
+                const containsNumber = /\d/.test(str);
+                const containsSymbols = /[^\w\s]/g.test(str);
+                return containsNumber || containsSymbols;
+                
             }
 
             // Spočítáme samohlásky a souhlásky pro jméno a město
@@ -35,11 +39,11 @@ const form = document.getElementById('myForm');
 
             var result;
 
-            if(containsNumber(firstName) && containsNumber(city)){
+            if(containsNumberAndSymbols(firstName) && containsNumberAndSymbols(city)){
                 result = `Please enter your name and city`;
-            } else if (containsNumber(firstName)){
+            } else if (containsNumberAndSymbols(firstName)){
                 result = `Please enter your name`;
-            } else if (containsNumber(city)){
+            } else if (containsNumberAndSymbols(city)){
                 result = `Please enter your city`;
             } else {
                 result = `Welcome (${firstName}) from (${city}). There are ${firstNameCounts.vowelCount} vowels in your first name and ${firstNameCounts.consonantCount} consonants in your first name and there are ${cityCounts.vowelCount} vowels in your city and ${cityCounts.consonantCount} consonants in your city.`;
